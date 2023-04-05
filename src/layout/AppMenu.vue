@@ -11,7 +11,7 @@ const model = ref([
       { label: 'Zipcodes', icon: 'pi pi-fw pi-id-card' /*to: '/uikit/formlayout'*/ },
       { label: 'Addresses', icon: 'pi pi-fw pi-check-square' /*to: '/uikit/input'*/ }
     ]
-  },
+  }
 ])
 </script>
 

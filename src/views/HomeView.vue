@@ -1,11 +1,9 @@
 <template>
-<h1>Home</h1>
+  <map-container />
 </template>
 
 <script setup>
-
+import MapContainer from '@/components/MapContainer.vue'
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
