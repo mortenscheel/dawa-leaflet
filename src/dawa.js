@@ -1,19 +1,19 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const cache = {}
+const cache = {};
 
 export const fetchGeoJson = async (resource, id) => {
-  const url = `https://api.dataforsyningen.dk/${resource}/${id}`
+  const url = `https://api.dataforsyningen.dk/${resource}/${id}`;
   if (!cache[url]) {
-    const params = { format: 'geojson' }
+    const params = { format: 'geojson' };
     if (resource === 'postnumre') {
-      params.landpostnumre = 'true'
+      params.landpostnumre = 'true';
     }
-    const response = await axios.get(url, { params })
-    cache[url] = response.data
+    const response = await axios.get(url, { params });
+    cache[url] = response.data;
   }
-  return cache[url]
-}
+  return cache[url];
+};
 
 export const options = {
   zipcodes: [
@@ -3398,4 +3398,4 @@ export const options = {
     { label: 'Vestjylland', value: '9' },
     { label: '\u00d8stjylland', value: '8' }
   ]
-}
+};
