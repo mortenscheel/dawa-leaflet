@@ -5,16 +5,22 @@ import { defineStore } from 'pinia'
 export const useMapStore = defineStore('map-store', {
   state: () => {
     return {
-      SAMap: shallowRef(null),
-      mapLayers: markRaw({
-        ZipCodesLayer: L.layerGroup()
+      map: shallowRef(null),
+      layerGroups: markRaw({
+        zipcodes: L.layerGroup(),
+        municipalities: L.layerGroup(),
+        regions: L.layerGroup(),
+        police: L.layerGroup(),
+        courts: L.layerGroup(),
+        churches: L.layerGroup(),
+        elections: L.layerGroup()
       })
     }
   },
 
   actions: {
-    setSAMap(map) {
-      this.SAMap = map
-    }
+    setMap(map) {
+      this.map = map
+    },
   }
-})
+});

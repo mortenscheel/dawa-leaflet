@@ -71,7 +71,7 @@ useResizeObserver(main, (entries) => {
 
 <template>
   <div class="layout-wrapper" :class="containerClass">
-    <app-topbar></app-topbar>
+<!--    <app-topbar></app-topbar>-->
     <div class="layout-sidebar">
       <app-sidebar></app-sidebar>
     </div>
@@ -80,9 +80,24 @@ useResizeObserver(main, (entries) => {
         <router-view></router-view>
       </div>
     </div>
-    <app-config></app-config>
+<!--    <app-config></app-config>-->
     <div class="layout-mask"></div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.layout-main-container{
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-right: 1rem;
+  padding-left: 2rem;
+}
+.layout-sidebar{
+  top: 1rem;
+  left: 1rem;
+  height: calc(100vh - 7rem);
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+</style>

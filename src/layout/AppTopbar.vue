@@ -71,12 +71,12 @@ const isOutsideClicked = (event) => {
   <div class="layout-topbar justify-content-between">
     <router-link to="/" class="layout-topbar-logo">
       <img :src="logoUrl" alt="logo" />
-      <span>DAWA-Vue</span>
+      <span>DAWA</span>
     </router-link>
 
-    <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()">
-      <i class="pi pi-bars"></i>
-    </button>
+<!--    <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()">-->
+<!--      <i class="pi pi-bars"></i>-->
+<!--    </button>-->
 
     <!--      <button class="p-link layout-topbar-menu-button layout-topbar-button" @click="onTopBarMenuButton()">-->
     <!--         <i class="pi pi-ellipsis-v"></i>-->

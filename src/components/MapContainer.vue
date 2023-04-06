@@ -23,16 +23,16 @@ const setupMap = () => {
     attributionControl: false,
     zoomAnimation: false,
     fadeAnimation: true,
-    zoomControl: false,
-    minZoom: 5
-  }).setView([51.509865, -0.118092], 10)
+    zoomControl: true,
+    // minZoom: 5,
+  }).setView([56.09349156919378, 9.678955078125002], 7)
 
-  mapStore.setSAMap(map)
+  mapStore.setMap(map)
 
   // adding other layers to map
-  for (let i = 0; i < Object.entries(mapStore.mapLayers).length; ++i) {
-    if (Object.entries(mapStore.mapLayers)[i] !== undefined) {
-      mapStore.SAMap.addLayer(Object.entries(mapStore.mapLayers)[i][1])
+  for (let i = 0; i < Object.entries(mapStore.layerGroups).length; ++i) {
+    if (Object.entries(mapStore.layerGroups)[i] !== undefined) {
+      mapStore.map.addLayer(Object.entries(mapStore.layerGroups)[i][1])
     }
   }
 }
