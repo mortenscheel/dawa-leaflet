@@ -15,7 +15,7 @@
           option-label="label"
           option-value="value"
           placeholder="Postnumre"
-          @change="onEntitySelectionChanged('zipcodes')"
+          @change="onEntitySelectionChanged('zipcodes', $event)"
         />
         <multi-select
           v-model="selected.municipalities"
@@ -110,8 +110,15 @@
       </div>
     </div>
     <div class="layout-main-container">
-      <div ref="main" class="layout-main" :style="{ height: `${mainHeight}px` }">
+      <div ref="main" class="layout-main relative" :style="{ height: `${mainHeight}px` }">
         <div id="mapRoot"></div>
+        <div
+          v-if="loading"
+          class="absolute top-0 bottom-0 right-0 left-0 flex align-items-center justify-content-center"
+          style="z-index: 999; background-color: rgba(255, 255, 255, 0.4)"
+        >
+          <progress-spinner />
+        </div>
       </div>
     </div>
     <!--    <app-config></app-config>-->
@@ -125,9 +132,19 @@ import { onMounted, ref } from 'vue'
 import 'leaflet/dist/leaflet.css'
 import { fetchGeoJson, options } from '@/dawa'
 import MultiSelect from 'primevue/multiselect'
+import ProgressSpinner from 'primevue/progressspinner'
 import { useResizeObserver } from '@vueuse/core'
 
-let map, layers
+let map
+const layers = {
+  zipcodes: L.layerGroup(),
+  municipalities: L.layerGroup(),
+  regions: L.layerGroup(),
+  police: L.layerGroup(),
+  courts: L.layerGroup(),
+  churches: L.layerGroup(),
+  elections: L.layerGroup()
+}
 
 const setupMap = () => {
   const openStreetMaps = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -151,16 +168,7 @@ const setupMap = () => {
   map.on('moveend', () => {
     document.getElementById('app').classList.remove('moving')
   })
-  layers = L.layerGroup()
-  map.addLayer(layers)
-  // mapStore.setMap(map)
-
-  // adding other layers to map
-  // for (let i = 0; i < Object.entries(mapStore.layerGroups).length; ++i) {
-  //    if (Object.entries(mapStore.layerGroups)[i] !== undefined) {
-  //       mapStore.map.addLayer(Object.entries(mapStore.layerGroups)[i][1])
-  //    }
-  // }
+  Object.values(layers).forEach((group) => map.addLayer(group))
 }
 
 onMounted(() => {
@@ -175,7 +183,9 @@ const selected = ref({
   churches: [],
   elections: []
 })
-const onEntitySelectionChanged = async (entity) => {
+const loading = ref(false)
+const onEntitySelectionChanged = async (entity, e) => {
+  console.log(e)
   let endpoint
   let color
   switch (entity) {
@@ -210,8 +220,8 @@ const onEntitySelectionChanged = async (entity) => {
     default:
       throw new Error('Unexpected entity')
   }
-
-  layers.clearLayers()
+  loading.value = true
+  layers[entity].clearLayers()
   for (const id of selected.value[entity]) {
     const geojson = await fetchGeoJson(endpoint, id)
     const layer = L.geoJSON(geojson, {
@@ -220,18 +230,21 @@ const onEntitySelectionChanged = async (entity) => {
         fillOpacity: 0.5
       }
     })
-    layers.addLayer(layer)
+    layers[entity].addLayer(layer)
   }
+  loading.value = false
   fitToBounds()
 }
 const fitToBounds = () => {
   let bounds
-  layers.eachLayer((layer) => {
-    if (bounds) {
-      bounds.extend(layer.getBounds())
-    } else {
-      bounds = layer.getBounds()
-    }
+  Object.values(layers).forEach((group) => {
+    group.eachLayer((layer) => {
+      if (bounds) {
+        bounds.extend(layer.getBounds())
+      } else {
+        bounds = layer.getBounds()
+      }
+    })
   })
   if (bounds) {
     map.fitBounds(bounds)
