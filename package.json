@@ -2,25 +2,26 @@
   "name": "dawa-vue",
   "version": "0.0.0",
   "private": true,
+  "homepage": "https://mortenscheel.github.io/dawa-leaflet",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "test:unit": "vitest",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@vueuse/core": "^9.13.0",
     "axios": "^1.3.5",
     "leaflet": "^1.9.3",
-    "pinia": "^2.0.32",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
     "primevue": "^3.26.1",
     "sass": "^1.60.0",
-    "vue": "^3.2.47",
-    "vue-router": "^4.1.6"
+    "vue": "^3.2.47"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
@@ -29,6 +30,7 @@
     "@vue/test-utils": "^2.3.0",
     "eslint": "^8.34.0",
     "eslint-plugin-vue": "^9.9.0",
+    "gh-pages": "^5.0.0",
     "jsdom": "^21.1.0",
     "prettier": "^2.8.4",
     "vite": "^4.1.4",
